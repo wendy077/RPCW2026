@@ -1,0 +1,159 @@
+@prefix : <http://rpcw.di.uminho.pt/2026/historia#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# Ontologia
+#################################################################
+
+:Historia a owl:Ontology .
+
+#################################################################
+# Classes
+#################################################################
+
+:Pessoa a owl:Class .
+:Estudante a owl:Class ; rdfs:subClassOf :Pessoa .
+:Professor a owl:Class ; rdfs:subClassOf :Pessoa .
+
+:Instituicao a owl:Class .
+:Escola a owl:Class .
+:Centro a owl:Class .
+:Curso a owl:Class .
+:Lingua a owl:Class .
+:Cidade a owl:Class .
+
+#################################################################
+# Data properties
+#################################################################
+
+:idade a owl:DatatypeProperty ;
+  rdfs:domain :Pessoa ;
+  rdfs:range  xsd:integer .
+
+:nome a owl:DatatypeProperty ;
+  rdfs:domain :Pessoa ;
+  rdfs:range  xsd:string .
+
+:diaDaSemana a owl:DatatypeProperty ;
+  rdfs:domain :Curso ;
+  rdfs:range xsd:string .
+
+#################################################################
+# Object properties
+#################################################################
+
+:oriundoDe a owl:ObjectProperty ;
+  rdfs:domain :Pessoa ;
+  rdfs:range  :Cidade .
+
+:estudaEm a owl:ObjectProperty ;
+  rdfs:domain :Estudante ;
+  rdfs:range  :Instituicao .
+
+:frequentaCurso a owl:ObjectProperty ;
+  rdfs:domain :Estudante ;
+  rdfs:range  :Curso .
+
+:leciona a owl:ObjectProperty ;
+  rdfs:domain :Professor ;
+  rdfs:range  :Curso .
+
+:lecionadoEm a owl:ObjectProperty ;
+  rdfs:domain :Curso ;
+  rdfs:range  :Centro .
+
+:pertenceA a owl:ObjectProperty ;
+  rdfs:domain :Professor ;
+  rdfs:range  :Escola .
+
+:aprende a owl:ObjectProperty ;
+  rdfs:domain :Pessoa ;
+  rdfs:range  :Lingua .
+
+:fluenteEm a owl:ObjectProperty ;
+  rdfs:domain :Pessoa ;
+  rdfs:range  :Lingua .
+
+:parceiroDe a owl:ObjectProperty ;
+  rdfs:domain :Pessoa ;
+  rdfs:range  :Pessoa ;
+  a owl:SymmetricProperty .
+
+#################################################################
+# Indivíduos (Cidades)
+#################################################################
+
+:Porto a :Cidade .
+:Braga a :Cidade .
+
+#################################################################
+# Indivíduos (Línguas)
+#################################################################
+
+:Portugues a :Lingua .
+:Espanhol a :Lingua .
+:Ingles a :Lingua .
+:Alemao a :Lingua .
+
+#################################################################
+# Indivíduos (Instituições / Unidades)
+#################################################################
+
+:UniversidadeDoMinho a :Instituicao .
+:ELACH a :Escola .
+:CentroDeLinguasUM a :Centro .
+
+#################################################################
+# Indivíduos (Curso)
+#################################################################
+
+:CursoAlemao a :Curso ;
+  :lecionadoEm :CentroDeLinguasUM ;
+  :diaDaSemana "sexta-feira" .
+
+:CursoBiotecnologia a :Curso .
+
+#################################################################
+# Indivíduos (Pessoas)
+#################################################################
+
+:Eduardo a :Estudante ;
+  :nome "Eduardo" ;
+  :idade 21 ;
+  :oriundoDe :Porto ;
+  :estudaEm :UniversidadeDoMinho ;
+  :aprende :Alemao ;
+  :fluenteEm :Portugues, :Espanhol, :Ingles, :Alemao .
+
+:Carlos a :Estudante ;
+  :nome "Carlos" ;
+  :estudaEm :UniversidadeDoMinho .
+
+:Ana a :Estudante ;
+  :nome "Ana" ;
+  :estudaEm :UniversidadeDoMinho .
+
+:HelmutRatz a :Professor ;
+  :nome "Helmut Ratz" ;
+  :pertenceA :ELACH ;
+  :fluenteEm :Alemao ;
+  :leciona :CursoAlemao .
+
+:Hanna a :Estudante ;
+  :nome "Hanna" ;
+  :estudaEm :UniversidadeDoMinho ;
+  :aprende :Portugues ;
+  :fluenteEm :Alemao, :Portugues ;
+  :parceiroDe :Eduardo ;
+  :frequentaCurso :CursoBiotecnologia .
+
+#################################################################
+# Inscrições no curso de Alemão (como relação)
+#################################################################
+
+:Eduardo :frequentaCurso :CursoAlemao .
+:Carlos  :frequentaCurso :CursoAlemao .
+:Ana     :frequentaCurso :CursoAlemao .
