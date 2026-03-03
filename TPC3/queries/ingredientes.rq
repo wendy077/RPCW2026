@@ -1,0 +1,9 @@
+PREFIX : <http://example.org/polvo-filosofico#>
+
+SELECT DISTINCT ?prato ?ingrediente
+WHERE {
+  ?pedido a :Pedido ;
+          :contemPrato ?prato .
+  ?prato :temIngrediente ?ingrediente .
+}
+ORDER BY ?prato ?ingrediente

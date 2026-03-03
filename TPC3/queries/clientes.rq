@@ -1,0 +1,7 @@
+PREFIX : <http://example.org/polvo-filosofico#>
+
+SELECT ?cliente
+WHERE {
+  ?cliente a :Cliente .
+}
+ORDER BY ?cliente
