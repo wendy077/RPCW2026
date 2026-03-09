@@ -1,0 +1,123 @@
+PREFIX : <http://rpcw.di.uminho.pt/2026/biblioteca-temporal#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# Query 1 — Livros na linha original
+SELECT DISTINCT ?livro
+WHERE {
+  ?livro :existeEm ?linha .
+  ?linha a :LinhaOriginal .
+}
+ORDER BY ?livro
+
+
+# Query 2 — Livros em múltiplas linhas temporais
+SELECT ?livro (COUNT(?linha) AS ?numLinhas)
+WHERE {
+  ?livro :existeEm ?linha .
+}
+GROUP BY ?livro
+HAVING (COUNT(?linha) > 1)
+ORDER BY DESC(?numLinhas)
+
+
+# Query 3 — Livros paradoxais
+SELECT ?livro
+WHERE {
+  ?livro a :LivroParadoxal .
+}
+ORDER BY ?livro
+
+
+# Query 4 — LivroHistorico e eventos
+SELECT ?livro ?evento
+WHERE {
+  ?livro a :LivroHistorico .
+  ?livro :refereEvento ?evento .
+  ?evento a :EventoHistorico .
+}
+ORDER BY ?livro ?evento
+
+
+# Query 5 — Inconsistências semânticas
+SELECT ?livro ?evento
+WHERE {
+  ?livro a :LivroHistorico .
+  ?livro :refereEvento ?evento .
+  ?evento a :EventoFuturo .
+}
+ORDER BY ?livro ?evento
+
+
+# Query 6 — Autores mais prolíficos
+SELECT ?autor (COUNT(?livro) AS ?numLivros)
+WHERE {
+  ?livro :escritoPor ?autor .
+}
+GROUP BY ?autor
+ORDER BY DESC(?numLivros) ?autor
+
+
+# Query 7 — Autores de livros paradoxais
+SELECT DISTINCT ?autor
+WHERE {
+  ?livro a :LivroParadoxal .
+  ?livro :escritoPor ?autor .
+}
+ORDER BY ?autor
+
+
+# Query 8 — Livros em linhas alternativas
+SELECT DISTINCT ?livro
+WHERE {
+  ?livro :existeEm ?linha .
+  ?linha a :LinhaAlternativa .
+}
+ORDER BY ?livro
+
+
+# Query 9 — Bibliotecários e biblioteca
+SELECT ?bibliotecario ?biblioteca
+WHERE {
+  ?bibliotecario a :Bibliotecario .
+  ?bibliotecario :trabalhaEm ?biblioteca .
+}
+ORDER BY ?bibliotecario
+
+
+# Query 10 — Livros escritos por Cronos
+SELECT ?livro ?linha
+WHERE {
+  ?livro :escritoPor :Cronos .
+  ?livro :existeEm ?linha .
+}
+ORDER BY ?livro ?linha
+
+
+# Bónus 1 — Livros que não referem nenhum evento
+SELECT ?livro
+WHERE {
+  ?livro :existeEm ?linha .
+  FILTER NOT EXISTS { ?livro :refereEvento ?evento . }
+}
+ORDER BY ?livro
+
+
+# Bónus 2 — Livros sem linha temporal associada
+SELECT ?livro
+WHERE {
+  ?livro :escritoPor ?autor .
+  FILTER NOT EXISTS { ?livro :existeEm ?linha . }
+}
+ORDER BY ?livro
+
+
+# Bónus 3 — Autores que são também leitores
+SELECT DISTINCT ?pessoa
+WHERE {
+  ?pessoa a :Autor .
+  ?pessoa a :Leitor .
+}
+ORDER BY ?pessoa
