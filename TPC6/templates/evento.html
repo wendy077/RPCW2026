@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ evento.designacao }}{% endblock %}
+
+{% block content %}
+<div class="w3-container w3-deep-orange w3-padding-24">
+    <div class="page-wrap">
+        <h2 class="w3-margin-0">{{ evento.designacao }}</h2>
+        <p class="w3-margin-top">{{ evento.id }}</p>
+    </div>
+</div>
+
+<div class="w3-container w3-padding-32">
+    <div class="page-wrap">
+        <div class="w3-card w3-white w3-padding w3-margin-bottom">
+            <h3>Descrição</h3>
+            <p>{{ evento.descricao }}</p>
+        </div>
+
+        <div class="w3-card w3-white w3-padding">
+            <h3>Livros que referem este evento</h3>
+            {% if evento.livros %}
+            <ul class="w3-ul">
+                {% for livro in evento.livros %}
+                <li>
+                    <a class="w3-text-teal card-link" href="/livro/{{ livro.id }}">{{ livro.label }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="muted">Nenhum livro associado.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ livro.titulo }}{% endblock %}
+
+{% block content %}
+<div class="w3-container w3-indigo w3-padding-24">
+    <div class="page-wrap">
+        <h2 class="w3-margin-0">{{ livro.titulo }}</h2>
+        <p class="w3-margin-top">{{ livro.id }}</p>
+    </div>
+</div>
+
+<div class="w3-container w3-padding-32">
+    <div class="page-wrap">
+        <div class="w3-row-padding">
+            <div class="w3-col l6 m12 w3-margin-bottom">
+                <div class="w3-card w3-white w3-padding">
+                    <h3>Ficha do livro</h3>
+                    <p><b>Tipo:</b> <span class="w3-tag w3-round {{ livro.color }}">{{ livro.tipo }}</span></p>
+                    <p><b>Autor:</b> {{ livro.autor }}</p>
+                    <p><b>País de origem:</b> {{ livro.pais }}</p>
+                    <p><b>Biblioteca:</b> {{ livro.biblioteca }}</p>
+                </div>
+            </div>
+            <div class="w3-col l6 m12 w3-margin-bottom">
+                <div class="w3-card w3-white w3-padding">
+                    <h3>Linhas temporais</h3>
+                    {% if livro.linhas %}
+                        <ul class="w3-ul">
+                            {% for linha in livro.linhas %}
+                            <li>
+                                <a class="w3-text-teal card-link" href="/linha/{{ linha }}">{{ linha }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="muted">Sem linhas temporais associadas.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-card w3-white w3-padding">
+            <h3>Eventos referidos</h3>
+            {% if livro.eventos %}
+                <ul class="w3-ul">
+                    {% for evento in livro.eventos %}
+                    <li>
+                        <a class="w3-text-teal card-link" href="/evento/{{ evento.id }}">{{ evento.label }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="muted">Este livro não referencia eventos.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

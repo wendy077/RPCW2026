@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Biblioteca Temporal{% endblock %}</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .page-wrap { max-width: 1100px; margin: 0 auto; }
+        .muted { color: #666; }
+        .card-link { text-decoration: none; }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+    <div class="w3-bar w3-black">
+        <a href="/livros" class="w3-bar-item w3-button"><i class="fa fa-book"></i> Livros</a>
+        <a href="/eventos" class="w3-bar-item w3-button"><i class="fa fa-bolt"></i> Eventos</a>
+        <a href="/linhas" class="w3-bar-item w3-button"><i class="fa fa-clock-o"></i> Linhas</a>
+        <span class="w3-bar-item w3-right w3-hide-small">TPC6 RPCW</span>
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <footer class="w3-container w3-dark-grey w3-padding-16 w3-margin-top">
+        <div class="page-wrap w3-center">
+            Biblioteca Temporal
+        </div>
+    </footer>
+
+</body>
+</html>
